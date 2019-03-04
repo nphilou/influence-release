@@ -32,12 +32,11 @@ class BinaryInceptionModel(GenericNeuralNet):
 
     def __init__(self, img_side, num_channels, weight_decay, **kwargs):
         self.weight_decay = weight_decay
-        
+
         self.img_side = img_side
         self.num_channels = num_channels
         self.input_dim = img_side * img_side * num_channels
         self.num_features = 2048 # Hardcoded for inception. For some reason Flatten() doesn't register num_features.
-
         super(BinaryInceptionModel, self).__init__(**kwargs)
 
         self.load_inception_weights()
@@ -159,13 +158,20 @@ class BinaryInceptionModel(GenericNeuralNet):
         self.inception_model.load_weights(weights_path)
 
 
-    def inference(self, input):        
+    def inference(self, input):
+        print(input.shape)
         reshaped_input = tf.reshape(input, [-1, self.img_side, self.img_side, self.num_channels])
+        print(reshaped_input.shape)
         self.inception_model = InceptionV3(include_top=False, weights='imagenet', input_tensor=reshaped_input)
         
         raw_inception_features = self.inception_model.output
 
         pooled_inception_features = AveragePooling2D((8, 8), strides=(8, 8), name='avg_pool')(raw_inception_features)
+        print(":::::::::::::::::::::")
+        print(pooled_inception_features.shape)
+        print(":::::::::::::::::::::")
+        print(pooled_inception_features.shape[0])
+        print(type(self))
         self.inception_features = Flatten(name='flatten')(pooled_inception_features)
 
 
