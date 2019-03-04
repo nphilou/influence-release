@@ -162,8 +162,9 @@ class BinaryInceptionModel(GenericNeuralNet):
         print(input.shape)
         reshaped_input = tf.reshape(input, [-1, self.img_side, self.img_side, self.num_channels])
         print(reshaped_input.shape)
-        self.inception_model = InceptionV3(include_top=False, weights='imagenet', input_tensor=reshaped_input)
-        
+        # self.inception_model = InceptionV3(include_top=False, weights='imagenet', input_tensor=reshaped_input)
+        self.inception_model = InceptionV3(include_top=False, weights='imagenet', input_shape=(self.img_side, self.img_side, self.num_channels))
+
         raw_inception_features = self.inception_model.output
 
         pooled_inception_features = AveragePooling2D((8, 8), strides=(8, 8), name='avg_pool')(raw_inception_features)
@@ -171,7 +172,6 @@ class BinaryInceptionModel(GenericNeuralNet):
         print(pooled_inception_features.shape)
         print(":::::::::::::::::::::")
         print(pooled_inception_features.shape[0])
-        print(type(self))
         self.inception_features = Flatten(name='flatten')(pooled_inception_features)
 
 
@@ -239,7 +239,7 @@ class BinaryInceptionModel(GenericNeuralNet):
         batch_feed_dict = {}
         batch_feed_dict[K.learning_phase()] = 0
 
-        for i in xrange(num_iter):
+        for i in range(num_iter):
             start = i * batch_size
             end = (i+1) * batch_size
             if end > num_examples:
