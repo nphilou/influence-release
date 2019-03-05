@@ -159,19 +159,13 @@ class BinaryInceptionModel(GenericNeuralNet):
 
 
     def inference(self, input):
-        print(input.shape)
         reshaped_input = tf.reshape(input, [-1, self.img_side, self.img_side, self.num_channels])
-        print(reshaped_input.shape)
-        # self.inception_model = InceptionV3(include_top=False, weights='imagenet', input_tensor=reshaped_input)
-        self.inception_model = InceptionV3(include_top=False, weights='imagenet', input_shape=(self.img_side, self.img_side, self.num_channels))
+        self.inception_model = InceptionV3(include_top=False, weights='imagenet', input_tensor=reshaped_input, input_shape=(self.img_side, self.img_side, self.num_channels))
+        # self.inception_model = InceptionV3(include_top=False, weights='imagenet', input_shape=(self.img_side, self.img_side, self.num_channels))
 
         raw_inception_features = self.inception_model.output
 
         pooled_inception_features = AveragePooling2D((8, 8), strides=(8, 8), name='avg_pool')(raw_inception_features)
-        print(":::::::::::::::::::::")
-        print(pooled_inception_features.shape)
-        print(":::::::::::::::::::::")
-        print(pooled_inception_features.shape[0])
         self.inception_features = Flatten(name='flatten')(pooled_inception_features)
 
 
