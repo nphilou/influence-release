@@ -10,7 +10,8 @@ with import <unstable> {};
         scikitlearn
         pandas
         Keras
-        tensorflowWithCuda
+        tensorflow
+        # tensorflowWithCuda
         cudnn
         ipykernel
         seaborn

@@ -45,11 +45,17 @@ num_classes = 2
 num_train_ex_per_class = 900
 num_test_ex_per_class = 300
 
-dataset_name = 'dogfish_%s_%s' % (num_train_ex_per_class, num_test_ex_per_class)
+# dataset_name = 'dogfish_%s_%s' % (num_train_ex_per_class, num_test_ex_per_class)
+# image_data_sets = load_animals(
+#    num_train_ex_per_class=num_train_ex_per_class,
+#    num_test_ex_per_class=num_test_ex_per_class,
+#    classes=['dog', 'fish'])
+
+dataset_name = 'catpanda_%s_%s' % (num_train_ex_per_class, num_test_ex_per_class)
 image_data_sets = load_animals(
-    num_train_ex_per_class=num_train_ex_per_class, 
+    num_train_ex_per_class=num_train_ex_per_class,
     num_test_ex_per_class=num_test_ex_per_class,
-    classes=['dog', 'fish'])
+    classes=['cat', 'panda'])
 
 ### Generate kernelized feature vectors
 X_train = image_data_sets.train.x
@@ -112,8 +118,9 @@ rbf_model = SmoothHinge(
     mini_batch=False,
     train_dir='output',
     log_dir='log',
-    model_name='dogfish_rbf_hinge_t-0')
-    
+    # model_name='dogfish_rbf_hinge_t-0')
+    model_name='catpanda_rbf_hinge_t-0')
+
 rbf_model.train()
 hinge_W = rbf_model.sess.run(rbf_model.params)[0]
 
@@ -133,7 +140,8 @@ rbf_model = SmoothHinge(
     mini_batch=False,
     train_dir='output',
     log_dir='log',
-    model_name='dogfish_rbf_hinge_t-0.001')
+    # model_name='dogfish_rbf_hinge_t-0.001')
+    model_name='catpanda_rbf_hinge_t-0.001')
 
 params_feed_dict = {}
 params_feed_dict[rbf_model.W_placeholder] = hinge_W
@@ -147,7 +155,8 @@ rbf_predicted_loss_diffs = rbf_model.get_influence_on_test_loss(
 
 ## Inception
 
-dataset_name = 'dogfish_900_300'
+# dataset_name = 'dogfish_900_300'
+dataset_name = 'catpanda_900_300'
 
 # Generate inception features
 img_side = 299

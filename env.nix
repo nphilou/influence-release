@@ -8,9 +8,10 @@ python36.withPackages (
     matplotlib
     scikitlearn
     pandas
+    pillow
     Keras
-    tensorflowWithCuda
-    # tensorflow
+    # tensorflowWithCuda
+    tensorflow
     cudnn
     ipykernel
     seaborn
