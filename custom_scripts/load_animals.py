@@ -98,11 +98,13 @@ def load_animals(num_train_ex_per_class=300,
         print('Reading animals from raw images...')
         X_train = np.zeros([num_train_examples, img_side, img_side, num_channels])
         X_test = np.zeros([num_test_examples, img_side, img_side, num_channels])
-        X_valid = np.zeros([num_valid_examples, img_side, img_side, num_channels])
+        # X_valid = np.zeros([num_valid_examples, img_side, img_side, num_channels])
+        X_valid = None
 
         Y_train = np.zeros([num_train_examples])
         Y_test = np.zeros([num_test_examples])
-        Y_valid = np.zeros([num_valid_examples])
+        # Y_valid = np.zeros([num_valid_examples])
+        Y_valid = None
 
         for class_idx, class_string in enumerate(classes):
             print('class: %s' % class_string)            
@@ -159,7 +161,8 @@ def load_animals(num_train_ex_per_class=300,
 
     train = DataSet(X_train, Y_train)
     if (X_valid is not None) and (Y_valid is not None):
-        validation = DataSet(X_valid, Y_valid)
+        # validation = DataSet(X_valid, Y_valid)
+        validation = None
     else:
         validation = None
 
